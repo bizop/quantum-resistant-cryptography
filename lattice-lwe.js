@@ -1,4 +1,4 @@
-const math = require('mathjs');
+import * as math from 'mathjs';
 
 function randomNormal(mean = 0, stdDev = 1, n = 1) {
   let arr = [];
@@ -14,20 +14,18 @@ function randomNormal(mean = 0, stdDev = 1, n = 1) {
 function stringToBinary(input) {
   return input
     .split('')
-    .map(function (char) {
-      return char.charCodeAt(0).toString(2).padStart(8, '0');
-    })
+    .map((char) => char.charCodeAt(0).toString(2).padStart(8, '0'))
     .join('');
 }
 
 function binaryToString(input) {
-  let strs = input.match(/.{1,8}/g).map(function (byte) {
-    return String.fromCharCode(parseInt(byte, 2));
-  });
-  return strs.join('');
+  return input
+    .match(/.{1,8}/g)
+    .map((byte) => String.fromCharCode(parseInt(byte, 2)))
+    .join('');
 }
 
-function generateKeypair(n = 128, q = 101, stdDev = 3.2) {
+function generateKeypair(n = 128, q = 257, stdDev = 2.0) {
   const A = math.randomInt([n, n], 0, q);
   const s = math.randomInt([n, 1], 0, q);
   const e = math.matrix(randomNormal(0, stdDev, n)).reshape([n, 1]);
@@ -35,7 +33,7 @@ function generateKeypair(n = 128, q = 101, stdDev = 3.2) {
   return { publicKey: [A, b], privateKey: s };
 }
 
-function encryptPart(messagePart, publicKey, q = 101, n = 128) {
+function encryptPart(messagePart, publicKey, q = 257, n = 128) {
   const [A, b] = publicKey;
   const m = math.reshape(messagePart, [n, 1]);
   const r = math.randomInt([n, 1], 0, 2);
@@ -44,7 +42,7 @@ function encryptPart(messagePart, publicKey, q = 101, n = 128) {
   return { u, v };
 }
 
-function encrypt(message, publicKey, q = 101, n = 128) {
+function encrypt(message, publicKey, q = 257, n = 128) {
   const binaryMessage = stringToBinary(message);
   const binaryArray = Array.from(binaryMessage).map(Number);
 
@@ -61,7 +59,7 @@ function encrypt(message, publicKey, q = 101, n = 128) {
   return { encryptedMessageParts, originalLength: messageLength };
 }
 
-function decryptPart(encryptedMessage, privateKey, q = 101, n = 128) {
+function decryptPart(encryptedMessage, privateKey, q = 257, n = 128) {
   const { u, v } = encryptedMessage;
   const s = privateKey;
   const decryptionAttempt = math.mod(math.subtract(v, math.multiply(math.transpose(u), s)), q);
@@ -69,24 +67,24 @@ function decryptPart(encryptedMessage, privateKey, q = 101, n = 128) {
   return math.mod(decryptedMessage, 2);
 }
 
-function decrypt(encryptedData, privateKey, q = 101, n = 128) {
+function decrypt(encryptedData, privateKey, q = 257, n = 128) {
   const { encryptedMessageParts, originalLength } = encryptedData;
-  let decryptedBinaryString = '';
+  let decryptedBinaryArray = [];
   encryptedMessageParts.forEach(({ u, v }) => {
     const decryptedPart = decryptPart({ u, v }, privateKey, q, n);
-    decryptedBinaryString += decryptedPart.toArray().join('');
+    decryptedBinaryArray.push(...decryptedPart.toArray());
   });
-  decryptedBinaryString = decryptedBinaryString.substring(0, originalLength);
+  const decryptedBinaryString = decryptedBinaryArray.slice(0, originalLength).join('');
   return binaryToString(decryptedBinaryString);
 }
 
 // Example usage
 (async () => {
-  const { publicKey, privateKey } = generateKeypair(128);
+  const { publicKey, privateKey } = generateKeypair();
   const message = 'Hello, Quantum World!';
   const encryptedMessage = encrypt(message, publicKey);
   const decryptedMessage = decrypt(encryptedMessage, privateKey);
   console.log('Original Message: ', message);
-  console.log('Encrypted Message: ', JSON.stringify(encryptedMessage));
+  // console.log('Encrypted Message: ', JSON.stringify(encryptedMessage));
   console.log('Decrypted Message: ', decryptedMessage);
 })();
