@@ -4,7 +4,7 @@
 
 ## Abstract
 
-This white paper and corresponding code presents a quantum-resistant encryption scheme based on the Learning with Errors (LWE) problem. The scheme utilizes a public-key cryptosystem that is believed to be secure against quantum computer attacks. The encryption and decryption processes are described in detail, along with the mathematical notations and concepts used in the implementation. The proposed scheme demonstrates the feasibility of achieving quantum-resistant encryption using the LWE problem and provides a foundation for further research and development in the field of post-quantum cryptography.
+This white paper and corresponding code presents a quantum-resistant encryption scheme based on the Learning with Errors (LWE) problem. The scheme utilizes a public-key cryptosystem that is believed to be secure against quantum computer attacks. The encryption and decryption processes are described in detail, along with the mathematical framework and mechanics used in the implementation. The proposed scheme demonstrates the feasibility of achieving quantum-resistant encryption using the LWE problem and provides a foundation for further research and development in the field of post-quantum cryptography.
 
 ## Introduction
 
