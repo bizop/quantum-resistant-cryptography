@@ -12,9 +12,9 @@ With the rapid advancement of quantum computing, traditional encryption methods 
 
 In this white paper, we present a quantum-resistant encryption scheme based on the LWE problem. The scheme utilizes a public-key cryptosystem, where the public key is used for encryption and the private key is used for decryption. The security of the scheme relies on the hardness of solving the LWE problem, which is a well-established computational problem in lattice-based cryptography [2].
 
-## Concepts
+## Concepts & Notation
 
-The following concepts are used in the implementation of the encryption scheme:
+The following concepts and notation are used in the implementation of the encryption scheme:
 
 - $\mathbb{Z}_q$: The set of integers modulo $q$, where $q$ is a prime number.
 - $\mathbf{A}$: A randomly generated matrix of size $n \times n$ with elements in $\mathbb{Z}_q$.
