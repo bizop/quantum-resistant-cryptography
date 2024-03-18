@@ -3,7 +3,7 @@ import * as math from 'mathjs';
 const PARAMS = {
   n: 128,
   q: 256,
-  stdDev: 2.0,
+  stdDev: 2.56,
 };
 
 function randomNormal(mean = 0, stdDev = PARAMS.stdDev, n = PARAMS.n) {
