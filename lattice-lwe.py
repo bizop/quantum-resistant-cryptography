@@ -2,7 +2,7 @@ import numpy as np
 
 # Parameters
 MEAN = 0
-STD_DEV = 2.0
+STD_DEV = 2.56
 N = 128
 Q = 256
 
